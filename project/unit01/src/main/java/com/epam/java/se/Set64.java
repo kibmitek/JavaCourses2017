@@ -25,7 +25,6 @@ public class Set64 {
         if(value < 0 || value > 63){
             return;
         }
-
         data |= 1L << value;
     }
 
@@ -33,7 +32,6 @@ public class Set64 {
         if(value < 0 || value > 63){
             return;
         }
-
         data &= ~(1L << value);
     }
 
@@ -58,31 +56,16 @@ public class Set64 {
     }
 
     public Set64 difference(Set64 other){
-        final long result = this.data - other.data;
-        return new Set64(result);
+        final long res = this.data ^ other.data;
+        return new Set64(res);
     }
 
-    /**
-     *
-     * check if this is subset of other
-     *
-     */
     public boolean isSubsetOf(Set64 other){
-        if(other.data == -1){
+        final long dif = this.data ^ other.data;
+        if ((dif | this.data) == other.data){
             return true;
         }
-
-        if(abs(other.data) < abs(this.data)){
-            return false;
-        }
-
-        for (int i = 0; i < 64; i++) {
-            if (this.contains(i))
-                if (!other.contains(i)) {
-                    return false;
-                }
-            }
-        return true;
+        return false;
     }
 
 }

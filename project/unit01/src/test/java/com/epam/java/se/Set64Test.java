@@ -76,8 +76,35 @@ public class Set64Test {
     }
 
     @Test
-    @Ignore
     public void union() throws Exception {
+        final Set64 small = new Set64();
+        small.add(0);
+        small.add(1);
+        small.add(4);
+        small.add(5);
+        small.add(7);
+        small.add(63);
+
+        final Set64 big = new Set64();
+        big.add(1);
+        big.add(4);
+        big.add(5);
+        big.add(8);
+
+        final Set64 union = new Set64();
+        union.add(0);
+        union.add(1);
+        union.add(4);
+        union.add(5);
+        union.add(7);
+        union.add(8);
+        union.add(63);
+
+        assertEquals(union.getData(), small.union(big).getData());
+    }
+
+    @Test
+    public void intersect() throws Exception {
         final Set64 small = new Set64();
         small.add(0);
         small.add(1);
@@ -93,27 +120,42 @@ public class Set64Test {
         big.add(8);
         big.add(63);
 
-        final Set64 union = new Set64();
-        union.add(1);
-        union.add(4);
-        union.add(5);
-        union.add(63);
+        final Set64 intersect = new Set64();
+        intersect.add(1);
+        intersect.add(4);
+        intersect.add(5);
+        intersect.add(63);
 
-        System.out.println("expected: " + Long.toBinaryString(union.getData()));
-        System.out.println("actual: " + Long.toBinaryString(small.union(big).getData()));
-        assertEquals(union, small.union(big));
-    }
-
-    @Test
-    @Ignore
-    public void intersect() throws Exception {
+        assertEquals(intersect.getData(), small.intersect(big).getData());
 
     }
 
     @Test
-    @Ignore
     public void difference() throws Exception{
+        final Set64 small = new Set64();
+        small.add(0);
+        small.add(1);
+        small.add(4);
+        small.add(5);
+        small.add(7);
+        small.add(63);
 
+        final Set64 big = new Set64();
+        big.add(1);
+        big.add(4);
+        big.add(5);
+        big.add(8);
+
+        final Set64 diff = new Set64();
+        diff.add(0);
+        diff.add(7);
+        diff.add(8);
+        diff.add(63);
+
+        System.out.println("expected: " + Long.toBinaryString(diff.getData()));
+        System.out.println("actual  : " + Long.toBinaryString(small.difference(big).getData()));
+
+        assertEquals(diff.getData(), small.difference(big).getData());
     }
 
     @Test
@@ -129,9 +171,6 @@ public class Set64Test {
         big.add(5);
         big.add(8);
         big.add(63);
-
-        System.out.println("small: " + Long.toBinaryString(small.getData()));
-        System.out.println("  big: " + Long.toBinaryString(big.getData()));
 
         assertTrue(small.isSubsetOf(big));
         assertFalse(big.isSubsetOf(small));
