@@ -20,6 +20,11 @@ public class IntSet {
         return data;
     }
 
+    /**
+     * Adds element to IntSet.
+     *
+     * @param value element value
+     */
     public void add(int value){
         if(value < 0 || value > Integer.MAX_VALUE){
             return;
@@ -36,11 +41,13 @@ public class IntSet {
 
         this.data = tmp;
 
-//        for (int j = 0; j < data.length; j++) {
-//            System.out.println("result data[" + j + "]: " + Long.toBinaryString(data[j]));
-//        }
     }
 
+    /**
+     * Removes element from IntSet by value.
+     *
+     * @param value value of element to be removed
+     */
     public void remove(int value){
         if(value < 0 || value > Integer.MAX_VALUE){
             return;
@@ -50,6 +57,12 @@ public class IntSet {
         data[i] &= ~(1L << value);
     }
 
+    /**
+     * Checks if IntSet contains the element by value.
+     *
+     * @param value element value to be checked
+     * @return true if contains, else false
+     */
     public boolean contains(int value){
         if(value < 0 || value > Integer.MAX_VALUE){
             return false;
@@ -67,6 +80,12 @@ public class IntSet {
         return res !=0;
     }
 
+    /**
+     * Returnes union of this IntSet with other Set64 from parameter.
+     *
+     * @param other IntSet instance to make union with this
+     * @return the union of this IntSet and other IntSet instance
+     */
     public IntSet union(IntSet other){
         final int thisLength = this.data.length;
         final int otherLength = other.data.length;
@@ -93,7 +112,12 @@ public class IntSet {
 
     }
 
-
+    /**
+     * Returnes intersect of two IntSet instances.
+     *
+     * @param other IntSet instance
+     * @return IntSet intersect
+     */
     public IntSet intersect(IntSet other){
         final int thisLength = this.data.length;
         final int otherLength = other.data.length;
@@ -115,6 +139,15 @@ public class IntSet {
         return new IntSet(res);
     }
 
+    /**
+     * Returnes difference between this IntSet instance and other IntSet instance.
+     *
+     * Difference is set of elements from this IntSet but not from other IntSet +
+     * + set of elements from other IntSet but not from this IntSet
+     *
+     * @param other IntSet instance
+     * @return difference
+     */
     public IntSet difference(IntSet other){
         final int thisLength = this.data.length;
         final int otherLength = other.data.length;
@@ -135,6 +168,14 @@ public class IntSet {
 
         return new IntSet(res);
     }
+
+    /**
+     * Checks if this IntSet is subset of other.
+     *
+     * @param other other IntSet to be checked if it contains this IntSet
+     * @return true if this IntSet is subset of other
+     *
+     */
     public boolean isSubsetOf(IntSet other){
         if (this.data.length > other.data.length){
             return false;

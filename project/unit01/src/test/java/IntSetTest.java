@@ -7,6 +7,10 @@ import static org.junit.Assert.*;
  */
 public class IntSetTest {
     @Test
+    /**
+     * Test for add method verification.
+     *
+     */
     public void add() throws Exception {
         final IntSet set = new IntSet();
 

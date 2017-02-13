@@ -38,6 +38,12 @@ public class IntArrayList {
         return size;
     }
 
+    /**
+     * Method to get Max value from IntArrayList.
+     *
+     *
+     * @return max value
+     */
     public int maxValueInefficient(){
         if(size == 0){
             throw new NoSuchElementException();
@@ -45,6 +51,14 @@ public class IntArrayList {
         return MaxValueRecursive(data, 0, size);
     }
 
+    /**
+     * Not effective recursive method returned Max value of int [] array.
+     *
+     * @param data source array of int
+     * @param fromInclusive start index(inclusive)
+     * @param toExclusive end index(exclusive)
+     * @return
+     */
     private int MaxValueRecursive(int[] data, int fromInclusive, int toExclusive) {
         final int length = toExclusive - fromInclusive;
         if(length == 1){
@@ -59,12 +73,16 @@ public class IntArrayList {
         );
     }
 
+    /**
+     * Sorts elements in IntArrayList.
+     *
+     */
     public void sort(){
         mergeSort(data, 0, getSize(), new int[getSize()]);
     }
 
     /**
-     * Expected collection to be sorted
+     * Expected collection is already sorted.
      *
      * @param value value to find in collection
      * @return index of the value or -indexToInsert -1
@@ -93,6 +111,14 @@ public class IntArrayList {
         return -(end + 1) - 1;
     }
 
+    /**
+     * Sorts array of ints using merge sort algorithm.
+     *
+     * @param data array of ints to be sorted
+     * @param startInclusive index start to sort from(inclusive)
+     * @param endExclusive index to finish sorting to(exclusive)
+     * @param free additional empty array with length = data.length
+     */
     private static void mergeSort(int[] data, int startInclusive, int endExclusive, int[] free) {
         final int length = endExclusive - startInclusive;
         if(length <= 1){
@@ -105,6 +131,15 @@ public class IntArrayList {
         merger(data, startInclusive, mid, endExclusive, free);
     }
 
+    /**
+     * Helper merger method for mergeSort.
+     *
+     * @param data array of ints to be sorted
+     * @param startInclusive index start to sort from(inclusive)
+     * @param mid index of the middle of the array
+     * @param endExclusive index to finish sorting to(exclusive)
+     * @param free additional empty array with length = data.length
+     */
     private static void merger(int[] data, int startInclusive, int mid, int endExclusive, int[] free) {
         System.arraycopy(data, startInclusive, free, startInclusive, endExclusive - startInclusive);
         int i = startInclusive;
@@ -123,6 +158,11 @@ public class IntArrayList {
 
     }
 
+    /**
+     * Ensures required capacity of data
+     *
+     * @param requiredCapacity
+     */
     private void insureCapacity(int requiredCapacity) {
         if(requiredCapacity <= getCapacity()){
             return;
