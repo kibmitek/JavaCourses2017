@@ -28,10 +28,10 @@ public class IntArrayList {
     }
 
     public int get(int i){
-        if(i < 0 || >= getCapacity()){
+        if(i < 0 || i >= getCapacity()){
             throw new IndexOutOfBoundsException();
-            return data[i];
         }
+        return data[i];
     }
 
     public int getSize(){
@@ -41,26 +41,86 @@ public class IntArrayList {
     public int maxValueInefficient(){
         if(size == 0){
             throw new NoSuchElementException();
-            return MaxValueRecursive(data, 0, size);
         }
+        return MaxValueRecursive(data, 0, size);
     }
 
-    private int MaxValueRecursive(int[] data, int fromInclusiva, int toExclusive) {
-        final int length = toExclusive - fromInclusiva;
+    private int MaxValueRecursive(int[] data, int fromInclusive, int toExclusive) {
+        final int length = toExclusive - fromInclusive;
         if(length == 1){
-            return data[fromInclusiva];
+            return data[fromInclusive];
         }else if (length == 0){
             return Integer.MIN_VALUE;
         }
-        final int mid = fromInclusiva + length/2;
+        final int mid = fromInclusive + length/2;
         return Math.max(
-                MaxValueRecursive(data, fromInclusiva, mid),
+                MaxValueRecursive(data, fromInclusive, mid),
                 MaxValueRecursive(data, mid, toExclusive)
         );
     }
 
     public void sort(){
-        
+        mergeSort(data, 0, getSize(), new int[getSize()]);
+    }
+
+    /**
+     * Expected collection to be sorted
+     *
+     * @param value value to find in collection
+     * @return index of the value or -indexToInsert -1
+     */
+    public int binarySearch(int value){
+        int start = 0;
+        int mid = size/2;
+        int end = size-1;
+        do {
+            if (data[mid] == value) {
+                return mid;
+            } else if (data[mid] < value) {
+                start = mid + 1;
+                mid = start + (end - start)/2 + 1;
+            } else {
+                end = mid - 1;
+                mid = (end) / 2;
+            }
+        }while (mid != end || mid != start);
+        if (data[mid] == value) {
+            return mid;
+        }
+        if(mid == start){
+            return -(start + 1) - 1;
+        }else
+        return -(end + 1) - 1;
+    }
+
+    private static void mergeSort(int[] data, int startInclusive, int endExclusive, int[] free) {
+        final int length = endExclusive - startInclusive;
+        if(length <= 1){
+            return;
+        }
+        final int mid = startInclusive + length/2;
+        mergeSort(data, startInclusive, mid, free);
+        mergeSort(data, mid, endExclusive, free);
+
+        merger(data, startInclusive, mid, endExclusive, free);
+    }
+
+    private static void merger(int[] data, int startInclusive, int mid, int endExclusive, int[] free) {
+        System.arraycopy(data, startInclusive, free, startInclusive, endExclusive - startInclusive);
+        int i = startInclusive;
+        int j = mid;
+        for(int k = startInclusive; k < endExclusive; k++){
+            if(i >= mid){
+                data[k] = free[j++];
+            }else if(j >= endExclusive){
+                data[k] = free[i++];
+            }else if(free[i] < free[j]){
+                data[k] = free[i++];
+            }else{
+                data[k] = free[j++];
+            }
+        }
+
     }
 
     private void insureCapacity(int requiredCapacity) {
