@@ -82,7 +82,54 @@ public class IntArrayList {
     }
 
     /**
+     * * Search element in collection.
+     *
+     * Expected collection is already sorted. Recursive implementation.
+     *
+     * @param value value to find in collection
+     * @return index of the value or -indexToInsert -1
+     */
+    public int binarySearchRecursive(int value){
+        int start = 0;
+        int mid = size/2;
+        int end = size-1;
+        return recusiveSearch(value, start, mid, end);
+    }
+
+    /**
+     * Recursive binary search implementation.
+     *
      * Expected collection is already sorted.
+     *
+     * @param value value to search
+     * @param start start index
+     * @param mid middle index
+     * @param end end index
+     * @return index of the value or -indexToInsert -1
+     */
+    private int recusiveSearch(int value, int start, int mid, int end) {
+
+        if (data[mid] == value) {
+            return mid;
+        } else if (data[mid] < value) {
+            start = mid + 1;
+            mid = start + (end - start)/2 + 1;
+            if(mid == end) {return -(end + 1) - 1;}
+
+        } else if(data[mid] > value){
+            end = mid - 1;
+            mid = (end) / 2;
+            if(mid == start) {return -(start + 1) - 1;}
+        }
+
+        return recusiveSearch(value, start, mid, end);
+
+    }
+
+    /**
+     * Search element in collection.
+     *
+     * Expected collection is already sorted. Cyclic implementation.
      *
      * @param value value to find in collection
      * @return index of the value or -indexToInsert -1
@@ -99,7 +146,7 @@ public class IntArrayList {
                 mid = start + (end - start)/2 + 1;
             } else {
                 end = mid - 1;
-                mid = (end) / 2;
+                mid = start + (end) / 2;
             }
         }while (mid != end || mid != start);
         if (data[mid] == value) {
