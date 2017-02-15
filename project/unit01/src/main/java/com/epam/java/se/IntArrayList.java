@@ -74,11 +74,19 @@ public class IntArrayList {
     }
 
     /**
-     * Sorts elements in IntArrayList.
+     * Sorts elements in IntArrayList using downfall merge sort.
      *
      */
-    public void sort(){
-        mergeSort(data, 0, getSize(), new int[getSize()]);
+    public void sortDown(){
+        mergeSortDown(data, 0, getSize(), new int[getSize()]);
+    }
+
+    /**
+     * Sorts elements in IntArrayList using uprise merge sort.
+     *
+     */
+    public void sortUp(){
+        mergeSortUp(data, 0, getSize(), new int[getSize()]);
     }
 
 
@@ -101,14 +109,16 @@ public class IntArrayList {
         if (data[mid] == value) {
             return mid;
         } else if (data[mid] < value) {
-            start = mid + 1;
 
             if(mid == end) {return -mid - 2;}
 
+            start = mid + 1;
+
         } else if(data[mid] > value){
-            end = mid - 1;
 
             if(mid == start) {return -mid - 1;}
+
+            end = mid - 1;
         }
 
         return recusiveSearch(value, start, end);
@@ -127,6 +137,7 @@ public class IntArrayList {
         int start = 0;
         int mid = size/2;
         int end = size-1;
+
         do {
             if (data[mid] == value) {
                 return mid;
@@ -148,30 +159,51 @@ public class IntArrayList {
     }
 
     /**
-     * Sorts array of ints using merge sort algorithm.
+     * Sorts array of ints using downfall merge sortDown algorithm.
      *
      * @param data array of ints to be sorted
-     * @param startInclusive index start to sort from(inclusive)
+     * @param startInclusive index start to sortDown from(inclusive)
      * @param endExclusive index to finish sorting to(exclusive)
      * @param free additional empty array with length = data.length
      */
-    private static void mergeSort(int[] data, int startInclusive, int endExclusive, int[] free) {
+    private static void mergeSortDown(int[] data, int startInclusive, int endExclusive, int[] free) {
         final int length = endExclusive - startInclusive;
         if(length <= 1){
             return;
         }
         final int mid = startInclusive + length/2;
-        mergeSort(data, startInclusive, mid, free);
-        mergeSort(data, mid, endExclusive, free);
+        mergeSortDown(data, startInclusive, mid, free);
+        mergeSortDown(data, mid, endExclusive, free);
 
         merger(data, startInclusive, mid, endExclusive, free);
     }
 
     /**
-     * Helper merger method for mergeSort.
+     * Sorts array of ints using downfall merge sortDown algorithm.
      *
      * @param data array of ints to be sorted
-     * @param startInclusive index start to sort from(inclusive)
+     * @param startInclusive index start to sortDown from(inclusive)
+     * @param endExclusive index to finish sorting to(exclusive)
+     * @param free additional empty array with length = data.length
+     */
+    public static void mergeSortUp(int[] data, int startInclusive, int endExclusive, int[] free){
+        final int length = endExclusive - startInclusive;
+        for(int k = 1; k < length*2; k *=2){
+            for (int i = 0; i < length; i+=k) {
+                endExclusive = Math.min(startInclusive + k, length);
+                int mid = Math.min(startInclusive + k/2, length);
+                merger(data, startInclusive, mid, endExclusive, free);
+                startInclusive = endExclusive;
+            }
+            startInclusive = 0;
+        }
+    }
+
+    /**
+     * Helper merger method for mergeSortDown.
+     *
+     * @param data array of ints to be sorted
+     * @param startInclusive index start to sortDown from(inclusive)
      * @param mid index of the middle of the array
      * @param endExclusive index to finish sorting to(exclusive)
      * @param free additional empty array with length = data.length
