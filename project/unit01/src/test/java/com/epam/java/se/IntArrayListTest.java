@@ -90,6 +90,7 @@ public class IntArrayListTest {
     public void binarySearch() throws Exception {
         final int[] ints = {12, 0, -13, 666, 2, 56, 56, 56, 120, -1, 1, 0, Integer.MAX_VALUE, Integer.MIN_VALUE};
         final IntArrayList list = new IntArrayList(ints);
+        //final IntArrayList listVarargs = IntArrayList.of(ints);
         list.sortDown();
 
         for (int i = 0; i < list.getSize(); i++) {
@@ -103,6 +104,16 @@ public class IntArrayListTest {
         for (int i = 0; i < searchInts.length; i++) {
             assertEquals(expectedIndexes[i], list.binarySearch(searchInts[i]));
         }
+    }
+
+    /**
+     * Test to demonstrate varargs
+     *
+     */
+    @Test
+    public void test(){
+//        final IntArrayList list = new IntArrayList(new int[]{1,2,4});
+        final IntArrayList list = IntArrayList.of(1,2);
     }
 
 }

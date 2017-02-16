@@ -244,4 +244,31 @@ public class IntArrayList {
         return data.length;
     }
 
+    /**
+     * Method to create IntArrayList object using varargs.
+     *
+     * @param ints
+     * @return
+     */
+    public static IntArrayList of(int... ints) {
+        System.out.println("of(int... ints)");
+        return new IntArrayList(ints);
+    }
+
+    public static IntArrayList of(String... strings) {
+        System.out.println("of(int... strings)");
+        return new IntArrayList();
+    }
+
+    /**
+     * Method to create IntArrayList object using varargs.
+     *
+     * @param i1
+     * @param i2
+     * @return
+     */
+    public static IntArrayList of(int i1, int i2) {
+        System.out.println("of(int i1, int i2)");
+        return new IntArrayList(new int[]{i1,i2});
+    }
 }
